@@ -141,12 +141,12 @@ class PiHole(inkycal_module):
         write(im_black, blocked_value_pos, box_size, f'{blocked_value:,}', font=self.font, autofit=True)
 
         # Draw percent blocked box
-        write(im_colour, percent_text_pos, box_size, "Blocked", font=self.font)
+        write(im_colour, percent_text_pos, box_size, "% Blocked", font=self.font)
         write(im_colour, percent_icon_pos, box_size, "\ue6c4", self.icon_font, alignment="left", autofit=True)
         write(im_black, percent_value_pos, box_size, f'{round(percent_value, 2)}%', font=self.font, autofit=True)
 
         # Draw unique domains box
-        write(im_colour, unique_text_pos, box_size,"Unique Domains", font=self.font)
+        write(im_colour, unique_text_pos, box_size,"Domains", font=self.font)
         write(im_colour, unique_icon_pos, box_size, "\ue896", self.icon_font, alignment="left", autofit=True)
         write(im_black, unique_value_pos, box_size, f'{unique_value:,}', font=self.font, autofit=True)
 

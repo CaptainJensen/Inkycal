@@ -132,22 +132,22 @@ class PiHole(inkycal_module):
 
         # Draw Total queries box
         #write(im_colour, tot_text_pos, box_size, "Total Queries", font=self.font, autofit=True)
-        write(im_colour, tot_icon_pos, box_size_icon, "\ue80b", icon_font)
+        write(im_colour, tot_icon_pos, box_size, "\ue80b", icon_font)
         write(im_black, tot_value_pos, box_size, f'{total_value:,}', font=self.font)
 
         # Draw total blocked box
         #write(im_colour, blocked_text_pos, box_size, "Total Blocked", font=self.font, autofit=True)
-        write(im_colour, blocked_icon_pos, box_size_icon, "\ue764", icon_font)
+        write(im_colour, blocked_icon_pos, box_size, "\ue764", icon_font)
         write(im_black, blocked_value_pos, box_size, f'{blocked_value:,}', font=self.font)
 
         # Draw percent blocked box
         #write(im_colour, percent_text_pos, box_size, "Percent Blocked", font=self.font, autofit=True)
-        write(im_colour, percent_icon_pos, box_size_icon, "\ue6c4", icon_font)
+        write(im_colour, percent_icon_pos, box_size, "\ue6c4", icon_font)
         write(im_black, percent_value_pos, box_size, f'{round(percent_value, 2)}%', font=self.font)
 
         # Draw unique domains box
         #write(im_colour, unique_text_pos, box_size,"Unique Domains", font=self.font, autofit=True)
-        write(im_colour, unique_icon_pos, box_size_icon, "\ue896", icon_font)
+        write(im_colour, unique_icon_pos, box_size, "\ue896", icon_font)
         write(im_black, unique_value_pos, box_size, f'{unique_value:,}', font=self.font)
 
         # return the images ready for the display

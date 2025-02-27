@@ -5,6 +5,9 @@ from inkycal.custom import *
 from inkycal.custom.functions import internet_available
 from inkycal.custom.inkycal_exceptions import NetworkNotReachableError
 
+import json
+import requests
+
 import arrow
 from PIL import Image
 from PIL import ImageDraw
@@ -12,6 +15,14 @@ from PIL import ImageFont
 
 logger = logging.getLogger(__name__)
 logger.setLevel(level=logging.INFO)
+
+def get_json_from_url(request_url):
+    response = requests.get(request_url)
+    if not response.ok:
+        raise AssertionError(
+            f"Failure getting the current weather: code {response.status_code}. Reason: {response.text}"
+        )
+    return json.loads(response.text)
 
 class PiHole(metaclass=abc.ABCMeta):
     """Generic base class for inkycal modules"""
@@ -111,12 +122,26 @@ class PiHole(metaclass=abc.ABCMeta):
         unique_text_pos = (col4, row1)
         unique_value_pos = (col4, row2)
 
-        write(im_colour, tot_text_pos, box_size, "TESTCOL1ROW1", font=self.font)
-        write(im_colour, blocked_text_pos, box_size, "TESTCOL2ROW1", font=self.font)
-        write(im_colour, percent_text_pos, box_size, "TESTCOL3ROW1", font=self.font)
-        write(im_colour, unique_text_pos, box_size, "TESTCOL4ROW1", font=self.font)
-        write(im_colour, tot_value_pos, box_size, "TESTCOL1ROW2", font=self.font)
-        write(im_colour, unique_value_pos, box_size, "TESTCOL4ROW2", font=self.font)
+        if internet_available():
+            logger.debug('Connection test passed')
+        else:
+            logger.error("Network not reachable. Please check your connection.")
+            raise NetworkNotReachableError
+
+        # Get stats from URL
+        piholeStats_data = get_json_from_url("https://pi.hole:443/api/stats/summary")
+
+        write(im_colour, tot_text_pos, box_size, "Total Queries", font=self.font)
+        write(im_black, tot_value_pos, box_size, piholeStats_data["queries"]["total"], font=self.font)
+
+        write(im_colour, blocked_text_pos, box_size, "Total Blocked", font=self.font)
+        write(im_black, blocked_value_pos, box_size, piholeStats_data["queries"]["blocked"], font=self.font)
+
+        write(im_colour, percent_text_pos, box_size, "Percent Blocked", font=self.font)
+        write(im_black, percent_value_pos, box_size, piholeStats_data["queries"]["percent_blocked"], font=self.font)
+
+        write(im_colour, unique_text_pos, box_size, "Unique Domains", font=self.font)
+        write(im_black, unique_value_pos, box_size, piholeStats_data["queries"]["unique_domains"], font=self.font)
 
         # return the images ready for the display
         return im_black, im_colour

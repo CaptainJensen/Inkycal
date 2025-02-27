@@ -269,7 +269,7 @@ def internet_available() -> bool:
     """
     for attempt in range(3):
         try:
-            requests.get("https://google.com", timeout=5)
+            requests.get("https://example.com", timeout=5)
             return True
         except:
             print(f"Network could not be reached: {traceback.print_exc()}")

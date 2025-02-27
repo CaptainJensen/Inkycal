@@ -6,7 +6,6 @@ from inkycal.modules.template import inkycal_module
 
 import json
 import requests
-import locale
 
 from PIL import Image
 from PIL import ImageDraw
@@ -21,6 +20,21 @@ def get_json_from_url(request_url):
             f"Failure getting the current weather: code {response.status_code}. Reason: {response.text}"
         )
     return json.loads(response.text)
+
+def get_piHole_stats_data(url):
+
+    if internet_available():
+        logger.debug('Connection test passed')
+    else:
+        logger.error("Network not reachable. Please check your connection.")
+        raise NetworkNotReachableError
+
+    logger.info(f'getting PiHole stats...')
+    # Get stats from URL
+    piholeStats_data = get_json_from_url(url)
+    logger.info(f'acquired PiHole stats')
+
+    return piholeStats_data
 
 class PiHole(inkycal_module):
     """Generic base class for inkycal modules"""
@@ -39,8 +53,8 @@ class PiHole(inkycal_module):
         self.padding_top = self.padding_bottom = conf['padding_y']
 
         self.fontsize = conf["fontsize"]
-        self.font = ImageFont.truetype(
-            fonts['NotoSansUI-Regular'], size=self.fontsize)
+        self.font = ImageFont.truetype(fonts['NotoSansUI-Regular'], size=self.fontsize)
+        self.icon_font = ImageFont.truetype(fonts['MaterialIcons'], size=self.fontsize)
 
         # give an OK message
         logger.debug(f'Custom PIHOLE module loaded')
@@ -81,32 +95,31 @@ class PiHole(inkycal_module):
 
         box_size = (col_width, row_height)
 
+        # Define sizes for icons
+        icon_small = int(col_width / 3)
+
         # Position for Total
         tot_text_pos = (col1, row1)
-        tot_value_pos = (col1, row2)
+        tot_icon_pos = (col1, row2)
+        tot_value_pos = (col1 + icon_small, row2)
 
         # Position for Blocked
         blocked_text_pos = (col2, row1)
-        blocked_value_pos = (col2, row2)
+        blocked_icon_pos = (col2, row2)
+        blocked_value_pos = (col2 + icon_small, row2)
 
         # Position for Percent
         percent_text_pos = (col3, row1)
-        percent_value_pos = (col3, row2)
+        percent_icon_pos = (col3, row2)
+        percent_value_pos = (col3 + icon_small, row2)
 
         # Position for Unique domains
         unique_text_pos = (col4, row1)
-        unique_value_pos = (col4, row2)
+        unique_icon_pos = (col4, row2)
+        unique_value_pos = (col4 + icon_small, row2)
 
-        if internet_available():
-            logger.debug('Connection test passed')
-        else:
-            logger.error("Network not reachable. Please check your connection.")
-            raise NetworkNotReachableError
-
-        logger.info(f'getting PiHole stats...')
-        # Get stats from URL
-        piholeStats_data = get_json_from_url("https://pi.hole:443/api/stats/summary")
-        logger.info(f'acquired PiHole stats')
+        # TODO: set this up in config
+        piholeStats_data = get_piHole_stats_data("https://pi.hole:443/api/stats/summary")
 
         # Parse stats
         total_value = piholeStats_data["queries"]["total"]
@@ -114,22 +127,25 @@ class PiHole(inkycal_module):
         percent_value = piholeStats_data["queries"]["percent_blocked"]
         unique_value = piholeStats_data["queries"]["unique_domains"]
 
-        total_text = text_wrap("Total Queries", font=self.font, max_width=col_width)
-        blocked_text = text_wrap("Total Blocked", font=self.font, max_width=col_width)
-        percent_text = text_wrap("Percent Blocked", font=self.font, max_width=col_width)
-        unique_text = text_wrap("Unique Domains", font=self.font, max_width=col_width)
+        # Draw Total queries box
+        write(im_colour, tot_text_pos, box_size, "Total Queries", font=self.font, autofit=True)
+        write(im_black, tot_icon_pos, box_size, "\ue878", font=self.icon_font, alignment='right')
+        write(im_black, tot_value_pos, box_size, f'{total_value:,}', auto_fontsize(self.font, row_height))
 
-        write(im_colour, tot_text_pos, box_size, total_text, font=self.font, autofit=True)
-        write(im_black, tot_value_pos, box_size, f'{total_value:n}', auto_fontsize(self.font, row_height))
+        # Draw total blocked box
+        write(im_colour, blocked_text_pos, box_size, "Total Blocked", font=self.font, autofit=True)
+        write(im_black, blocked_icon_pos, box_size, "\ue878", font=self.icon_font, alignment='right')
+        write(im_black, blocked_value_pos, box_size, f'{blocked_value:,}', auto_fontsize(self.font, row_height))
 
-        write(im_colour, blocked_text_pos, box_size, blocked_text, font=self.font, autofit=True)
-        write(im_black, blocked_value_pos, box_size, f'{blocked_value:n}', auto_fontsize(self.font, row_height))
+        # Draw percent blocked box
+        write(im_colour, percent_text_pos, box_size, "Percent Blocked", font=self.font, autofit=True)
+        write(im_black, percent_icon_pos, box_size, "\ue878", font=self.icon_font, alignment='right')
+        write(im_black, percent_value_pos, box_size, f'{percent_value:.2%}' + "%", auto_fontsize(self.font, row_height))
 
-        write(im_colour, percent_text_pos, box_size, percent_text, font=self.font, autofit=True)
-        write(im_black, percent_value_pos, box_size, f'{round(percent_value, 2):n}' + "%", auto_fontsize(self.font, row_height))
-
-        write(im_colour, unique_text_pos, box_size, unique_text, font=self.font, autofit=True)
-        write(im_black, unique_value_pos, box_size, f'{unique_value:n}', auto_fontsize(self.font, row_height))
+        # Draw unique domains box
+        write(im_colour, unique_text_pos, box_size,"Unique Domains", font=self.font, autofit=True)
+        write(im_black, unique_icon_pos, box_size, "\ue878", font=self.icon_font, alignment='right')
+        write(im_black, unique_value_pos, box_size, f'{unique_value:,}', auto_fontsize(self.font, row_height))
 
         # return the images ready for the display
         return im_black, im_colour

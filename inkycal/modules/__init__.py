@@ -12,3 +12,4 @@ from .inkycal_webshot import Webshot
 from .inkycal_xkcd import Xkcd
 from .inkycal_fullweather import Fullweather
 from .inkycal_tindie import Tindie
+from .custom_pihole import PiHole

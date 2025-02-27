@@ -21,7 +21,7 @@ def get_json_from_url(request_url):
         )
     return json.loads(response.text)
 
-def get_piHole_stats_data(url):
+def get_pihole_stats_data(url):
 
     if internet_available():
         logger.debug('Connection test passed')
@@ -58,7 +58,7 @@ class PiHole(inkycal_module):
         self.icon_font = ImageFont.truetype(fonts['MaterialIcons'], size=self.fontsize)
 
         # give an OK message
-        logger.debug(f'Custom PIHOLE module loaded')
+        logger.debug(f'Custom PiHole module loaded')
 
     def generate_image(self):
 
@@ -78,6 +78,8 @@ class PiHole(inkycal_module):
         n_cols = 2
         n_rows = 4
 
+        logger.debug(f"n_cols: {n_cols} | n_rows: {n_rows}")
+
         # Calculate size rows and columns
         col_width = im_width // n_cols
         row_height = im_height // n_rows
@@ -85,7 +87,6 @@ class PiHole(inkycal_module):
         logger.debug(f"row_height: {row_height} | col_width: {col_width}")
 
         spacing_top = int((im_width % col_width) / 2)
-        spacing_left = int((im_height % row_height) / 2)
 
         # Calculate the x-axis position of each col
         col1 = spacing_top
@@ -101,9 +102,6 @@ class PiHole(inkycal_module):
 
         box_size = (col_width, row_height)
 
-        # Define sizes for icons
-        icon_small = int(col_width / 3)
-
         # Position for Total
         tot_text_pos = (col1, row1)
         tot_icon_pos = (col1, row1)
@@ -115,16 +113,16 @@ class PiHole(inkycal_module):
         blocked_value_pos = (col2, row2)
 
         # Position for Percent
-        percent_text_pos = (col1, row3)
-        percent_icon_pos = (col1, row3)
-        percent_value_pos = (col1, row4)
+        percent_text_pos = (col2, row3)
+        percent_icon_pos = (col2, row3)
+        percent_value_pos = (col2, row4)
 
         # Position for Unique domains
-        unique_text_pos = (col2, row3)
-        unique_icon_pos = (col2, row3)
-        unique_value_pos = (col2, row4)
+        unique_text_pos = (col1, row3)
+        unique_icon_pos = (col1, row3)
+        unique_value_pos = (col1, row4)
 
-        piholeStats_data = get_piHole_stats_data(self.url_pihole)
+        piholeStats_data = get_pihole_stats_data(self.url_pihole)
 
         # Parse stats
         total_value = piholeStats_data["queries"]["total"]
@@ -138,7 +136,7 @@ class PiHole(inkycal_module):
         write(im_black, tot_value_pos, box_size, f'{total_value:,}', font=self.font, autofit=True)
 
         # Draw total blocked box
-        write(im_colour, blocked_text_pos, box_size, "Blocked", font=self.font)
+        write(im_colour, blocked_text_pos, box_size, "Total Blocked", font=self.font)
         write(im_colour, blocked_icon_pos, box_size, "\ue764", self.icon_font, alignment="left", autofit=True)
         write(im_black, blocked_value_pos, box_size, f'{blocked_value:,}', font=self.font, autofit=True)
 
@@ -148,36 +146,9 @@ class PiHole(inkycal_module):
         write(im_black, percent_value_pos, box_size, f'{round(percent_value, 2)}%', font=self.font, autofit=True)
 
         # Draw unique domains box
-        write(im_colour, unique_text_pos, box_size,"Domains", font=self.font)
+        write(im_colour, unique_text_pos, box_size,"Unique Domains", font=self.font)
         write(im_colour, unique_icon_pos, box_size, "\ue896", self.icon_font, alignment="left", autofit=True)
         write(im_black, unique_value_pos, box_size, f'{unique_value:,}', font=self.font, autofit=True)
 
         # return the images ready for the display
         return im_black, im_colour
-
-    @classmethod
-    def get_config(cls):
-        # Do not change
-        # Get the config of this module for the web-ui
-        try:
-
-            if hasattr(cls, 'requires'):
-                for each in cls.requires:
-                    if not "label" in cls.requires[each]:
-                        raise Exception(f"no label found for {each}")
-
-            if hasattr(cls, 'optional'):
-                for each in cls.optional:
-                    if not "label" in cls.optional[each]:
-                        raise Exception(f"no label found for {each}")
-
-            conf = {
-                "name": cls.__name__,
-                "name_str": cls.name,
-                "requires": cls.requires if hasattr(cls, 'requires') else {},
-                "optional": cls.optional if hasattr(cls, 'optional') else {},
-            }
-            return conf
-        except:
-            raise Exception(
-                'Ohoh, something went wrong while trying to get the config of this module')

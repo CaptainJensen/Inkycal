@@ -75,7 +75,7 @@ class PiHole(inkycal_module):
 
         # Calculate size rows and columns
         col_width = im_width // 4 # Four columns
-        row_height = im_height // 2 # Two rows
+        row_height = im_height // 3 # Two rows
 
         logger.debug(f"row_height: {row_height} | col_width: {col_width}")
 
@@ -90,8 +90,10 @@ class PiHole(inkycal_module):
 
         line_gap = int((im_height - spacing_top - 3 * row_height) // 4)
 
+        # Calculate the position of each row
         row1 = line_gap
         row2 = row1 + line_gap + row_height
+        row3 = row2 + line_gap + row_height
 
         box_size = (col_width, row_height)
 
@@ -101,22 +103,22 @@ class PiHole(inkycal_module):
         # Position for Total
         tot_text_pos = (col1, row1)
         tot_icon_pos = (col1, row2)
-        tot_value_pos = (col1 + icon_small, row2)
+        tot_value_pos = (col1, row3)
 
         # Position for Blocked
         blocked_text_pos = (col2, row1)
         blocked_icon_pos = (col2, row2)
-        blocked_value_pos = (col2 + icon_small, row2)
+        blocked_value_pos = (col2, row3)
 
         # Position for Percent
         percent_text_pos = (col3, row1)
         percent_icon_pos = (col3, row2)
-        percent_value_pos = (col3 + icon_small, row2)
+        percent_value_pos = (col3, row3)
 
         # Position for Unique domains
         unique_text_pos = (col4, row1)
         unique_icon_pos = (col4, row2)
-        unique_value_pos = (col4 + icon_small, row2)
+        unique_value_pos = (col4, row3)
 
         # TODO: set this up in config
         piholeStats_data = get_piHole_stats_data("https://pi.hole:443/api/stats/summary")
@@ -129,22 +131,22 @@ class PiHole(inkycal_module):
 
         # Draw Total queries box
         write(im_colour, tot_text_pos, box_size, "Total Queries", font=self.font, autofit=True)
-        write(im_black, tot_icon_pos, box_size, "\ue878", font=self.icon_font, alignment='right')
+        write(im_black, tot_icon_pos, box_size, "\ue80b", font=self.icon_font, alignment='left')
         write(im_black, tot_value_pos, box_size, f'{total_value:,}', font=self.font)
 
         # Draw total blocked box
         write(im_colour, blocked_text_pos, box_size, "Total Blocked", font=self.font, autofit=True)
-        write(im_black, blocked_icon_pos, box_size, "\ue878", font=self.icon_font, alignment='right')
+        write(im_black, blocked_icon_pos, box_size, "\ue764", font=self.icon_font, alignment='left')
         write(im_black, blocked_value_pos, box_size, f'{blocked_value:,}', font=self.font)
 
         # Draw percent blocked box
         write(im_colour, percent_text_pos, box_size, "Percent Blocked", font=self.font, autofit=True)
-        write(im_black, percent_icon_pos, box_size, "\ue878", font=self.icon_font, alignment='right')
-        write(im_black, percent_value_pos, box_size, f'{percent_value:.2%}' + "%", font=self.font)
+        write(im_black, percent_icon_pos, box_size, "\ue6c4", font=self.icon_font, alignment='left')
+        write(im_black, percent_value_pos, box_size, f'{percent_value:.2%}', font=self.font)
 
         # Draw unique domains box
         write(im_colour, unique_text_pos, box_size,"Unique Domains", font=self.font, autofit=True)
-        write(im_black, unique_icon_pos, box_size, "\ue878", font=self.icon_font, alignment='right')
+        write(im_black, unique_icon_pos, box_size, "\ue896", font=self.icon_font, alignment='left')
         write(im_black, unique_value_pos, box_size, f'{unique_value:,}', font=self.font)
 
         # return the images ready for the display

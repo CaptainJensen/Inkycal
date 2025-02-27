@@ -48,6 +48,7 @@ class PiHole(inkycal_module):
         # sets properties shared amongst all sections
         self.config = conf = config['config']
         self.width, self.height = conf['size']
+        self.url_pihole = conf['url']
 
         self.padding_left = self.padding_right = conf["padding_x"]
         self.padding_top = self.padding_bottom = conf['padding_y']
@@ -119,8 +120,7 @@ class PiHole(inkycal_module):
         unique_icon_pos = (col4, row1)
         unique_value_pos = (col4, row2)
 
-        # TODO: set this up in config
-        piholeStats_data = get_piHole_stats_data("https://pi.hole:443/api/stats/summary")
+        piholeStats_data = get_piHole_stats_data(self.url_pihole)
 
         # Parse stats
         total_value = piholeStats_data["queries"]["total"]
@@ -131,24 +131,24 @@ class PiHole(inkycal_module):
         icon_font = auto_fontsize(self.icon_font, row_height)
 
         # Draw Total queries box
-        #write(im_colour, tot_text_pos, box_size, "Total Queries", font=self.font, autofit=True)
-        write(im_colour, tot_icon_pos, box_size, "\ue80b", icon_font)
-        write(im_black, tot_value_pos, box_size, f'{total_value:,}', font=self.font)
+        write(im_colour, tot_text_pos, box_size, "Queries", font=self.font, autofit=True)
+        write(im_colour, tot_icon_pos, box_size, "\ue80b", font=self.font, autofit=True)
+        write(im_black, tot_value_pos, box_size, f'{total_value:,}', font=self.font, autofit=True)
 
         # Draw total blocked box
-        #write(im_colour, blocked_text_pos, box_size, "Total Blocked", font=self.font, autofit=True)
+        write(im_colour, blocked_text_pos, box_size, "Blocked", font=self.font, autofit=True)
         write(im_colour, blocked_icon_pos, box_size, "\ue764", icon_font)
-        write(im_black, blocked_value_pos, box_size, f'{blocked_value:,}', font=self.font)
+        write(im_black, blocked_value_pos, box_size, f'{blocked_value:,}', font=self.font, autofit=True)
 
         # Draw percent blocked box
-        #write(im_colour, percent_text_pos, box_size, "Percent Blocked", font=self.font, autofit=True)
+        write(im_colour, percent_text_pos, box_size, "Blocked", font=self.font, autofit=True)
         write(im_colour, percent_icon_pos, box_size, "\ue6c4", icon_font)
-        write(im_black, percent_value_pos, box_size, f'{round(percent_value, 2)}%', font=self.font)
+        write(im_black, percent_value_pos, box_size, f'{round(percent_value, 2)}%', font=self.font, autofit=True)
 
         # Draw unique domains box
-        #write(im_colour, unique_text_pos, box_size,"Unique Domains", font=self.font, autofit=True)
-        write(im_colour, unique_icon_pos, box_size, "\ue896", icon_font)
-        write(im_black, unique_value_pos, box_size, f'{unique_value:,}', font=self.font)
+        write(im_colour, unique_text_pos, box_size,"Domains", font=self.font, autofit=True)
+        write(im_colour, unique_icon_pos, box_size, "\ue896", icon_font) #TODO check
+        write(im_black, unique_value_pos, box_size, f'{unique_value:,}', font=self.font, autofit=True)
 
         # return the images ready for the display
         return im_black, im_colour

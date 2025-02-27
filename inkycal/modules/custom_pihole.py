@@ -1,14 +1,12 @@
 """PIHOLE Module"""
-import abc
-
 from inkycal.custom import *
 from inkycal.custom.functions import internet_available
 from inkycal.custom.inkycal_exceptions import NetworkNotReachableError
+from inkycal.modules.template import inkycal_module
 
 import json
 import requests
 
-import arrow
 from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
@@ -24,7 +22,7 @@ def get_json_from_url(request_url):
         )
     return json.loads(response.text)
 
-class PiHole(metaclass=abc.ABCMeta):
+class PiHole(inkycal_module):
     """Generic base class for inkycal modules"""
 
     def __init__(self, config):

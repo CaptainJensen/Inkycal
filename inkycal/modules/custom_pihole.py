@@ -129,17 +129,23 @@ class PiHole(inkycal_module):
         # Get stats from URL
         piholeStats_data = get_json_from_url("https://pi.hole:443/api/stats/summary")
 
+        # Parse stats
+        total_value = piholeStats_data["queries"]["total"]
+        blocked_value = piholeStats_data["queries"]["blocked"]
+        percent_value = piholeStats_data["queries"]["percent_blocked"]
+        unique_value = piholeStats_data["queries"]["unique_domains"]
+
         write(im_colour, tot_text_pos, box_size, "Total Queries", font=self.font)
-        write(im_black, tot_value_pos, box_size, piholeStats_data["queries"]["total"], font=self.font)
+        write(im_black, tot_value_pos, box_size, str(total_value), font=self.font)
 
         write(im_colour, blocked_text_pos, box_size, "Total Blocked", font=self.font)
-        write(im_black, blocked_value_pos, box_size, piholeStats_data["queries"]["blocked"], font=self.font)
+        write(im_black, blocked_value_pos, box_size, str(blocked_value), font=self.font)
 
         write(im_colour, percent_text_pos, box_size, "Percent Blocked", font=self.font)
-        write(im_black, percent_value_pos, box_size, piholeStats_data["queries"]["percent_blocked"], font=self.font)
+        write(im_black, percent_value_pos, box_size, str(round(percent_value, 2)) + "%", font=self.font)
 
         write(im_colour, unique_text_pos, box_size, "Unique Domains", font=self.font)
-        write(im_black, unique_value_pos, box_size, piholeStats_data["queries"]["unique_domains"], font=self.font)
+        write(im_black, unique_value_pos, box_size, str(unique_value), font=self.font)
 
         # return the images ready for the display
         return im_black, im_colour

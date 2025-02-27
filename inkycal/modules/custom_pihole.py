@@ -75,7 +75,7 @@ class PiHole(inkycal_module):
 
         # Calculate size rows and columns
         col_width = im_width // 4 # Four columns
-        row_height = im_height // 3 # Two rows
+        row_height = im_height // 2 # Two rows
 
         logger.debug(f"row_height: {row_height} | col_width: {col_width}")
 
@@ -95,7 +95,6 @@ class PiHole(inkycal_module):
         row2 = row1 + line_gap + row_height
 
         box_size = (col_width, row_height)
-        box_size_icon = (col_width, row_height*2)
 
         # Define sizes for icons
         icon_small = int(col_width / 3)
@@ -129,24 +128,26 @@ class PiHole(inkycal_module):
         percent_value = piholeStats_data["queries"]["percent_blocked"]
         unique_value = piholeStats_data["queries"]["unique_domains"]
 
+        icon_font = auto_fontsize(self.icon_font, row_height)
+
         # Draw Total queries box
         #write(im_colour, tot_text_pos, box_size, "Total Queries", font=self.font, autofit=True)
-        write(im_colour, tot_icon_pos, box_size_icon, "\ue80b", font=self.icon_font)
+        write(im_colour, tot_icon_pos, box_size_icon, "\ue80b", icon_font)
         write(im_black, tot_value_pos, box_size, f'{total_value:,}', font=self.font)
 
         # Draw total blocked box
         #write(im_colour, blocked_text_pos, box_size, "Total Blocked", font=self.font, autofit=True)
-        write(im_colour, blocked_icon_pos, box_size_icon, "\ue764", font=self.icon_font)
+        write(im_colour, blocked_icon_pos, box_size_icon, "\ue764", icon_font)
         write(im_black, blocked_value_pos, box_size, f'{blocked_value:,}', font=self.font)
 
         # Draw percent blocked box
         #write(im_colour, percent_text_pos, box_size, "Percent Blocked", font=self.font, autofit=True)
-        write(im_colour, percent_icon_pos, box_size_icon, "\ue6c4", font=self.icon_font)
+        write(im_colour, percent_icon_pos, box_size_icon, "\ue6c4", icon_font)
         write(im_black, percent_value_pos, box_size, f'{round(percent_value, 2)}%', font=self.font)
 
         # Draw unique domains box
         #write(im_colour, unique_text_pos, box_size,"Unique Domains", font=self.font, autofit=True)
-        write(im_colour, unique_icon_pos, box_size_icon, "\ue896", font=self.icon_font)
+        write(im_colour, unique_icon_pos, box_size_icon, "\ue896", icon_font)
         write(im_black, unique_value_pos, box_size, f'{unique_value:,}', font=self.font)
 
         # return the images ready for the display

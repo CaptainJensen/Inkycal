@@ -106,6 +106,7 @@ class PiHole(inkycal_module):
         logger.info(f'getting PiHole stats...')
         # Get stats from URL
         piholeStats_data = get_json_from_url("https://pi.hole:443/api/stats/summary")
+        logger.info(f'acquired PiHole stats')
 
         # Parse stats
         total_value = piholeStats_data["queries"]["total"]
@@ -113,21 +114,21 @@ class PiHole(inkycal_module):
         percent_value = piholeStats_data["queries"]["percent_blocked"]
         unique_value = piholeStats_data["queries"]["unique_domains"]
 
-        logger.info(f'acquired PiHole stats')
+        total_text = text_wrap("Total Queries", font=self.font, max_width=col_width)
+        blocked_text = text_wrap("Total Blocked", font=self.font, max_width=col_width)
+        percent_text = text_wrap("Percent Blocked", font=self.font, max_width=col_width)
+        unique_text = text_wrap("Unique Domains", font=self.font, max_width=col_width)
 
-        # Set stats to show in local format
-        locale.setlocale(locale.LC_ALL, '')
-
-        write(im_colour, tot_text_pos, box_size, "Total Queries", font=self.font, autofit=True)
+        write(im_colour, tot_text_pos, box_size, total_text, font=self.font, autofit=True)
         write(im_black, tot_value_pos, box_size, f'{total_value:n}', auto_fontsize(self.font, row_height))
 
-        write(im_colour, blocked_text_pos, box_size, "Total Blocked", font=self.font, autofit=True)
+        write(im_colour, blocked_text_pos, box_size, blocked_text, font=self.font, autofit=True)
         write(im_black, blocked_value_pos, box_size, f'{blocked_value:n}', auto_fontsize(self.font, row_height))
 
-        write(im_colour, percent_text_pos, box_size, "Percent Blocked", font=self.font, autofit=True)
+        write(im_colour, percent_text_pos, box_size, percent_text, font=self.font, autofit=True)
         write(im_black, percent_value_pos, box_size, f'{round(percent_value, 2):n}' + "%", auto_fontsize(self.font, row_height))
 
-        write(im_colour, unique_text_pos, box_size, "Unique Domains", font=self.font, autofit=True)
+        write(im_colour, unique_text_pos, box_size, unique_text, font=self.font, autofit=True)
         write(im_black, unique_value_pos, box_size, f'{unique_value:n}', auto_fontsize(self.font, row_height))
 
         # return the images ready for the display

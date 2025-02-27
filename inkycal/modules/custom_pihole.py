@@ -129,24 +129,24 @@ class PiHole(inkycal_module):
         unique_value = piholeStats_data["queries"]["unique_domains"]
 
         # Draw Total queries box
-        write(im_colour, tot_text_pos, box_size, "Queries", font=self.font)
-        write(im_colour, tot_icon_pos, box_size, "\ue80b", self.icon_font)
-        write(im_black, tot_value_pos, box_size, f'{total_value:,}', font=self.font, autofit=True)
+        write(im_colour, tot_text_pos, box_size, "Queries", font=self.font, alignment="right")
+        write(im_colour, tot_icon_pos, box_size, "\ue80b", self.icon_font, alignment="left", autofit=True)
+        write(im_black, tot_value_pos, box_size, f'{total_value:,}', font=self.font)
 
         # Draw total blocked box
-        write(im_colour, blocked_text_pos, box_size, "Blocked", font=self.font)
-        write(im_colour, blocked_icon_pos, box_size, "\ue764", self.icon_font)
-        write(im_black, blocked_value_pos, box_size, f'{blocked_value:,}', font=self.font, autofit=True)
+        write(im_colour, blocked_text_pos, box_size, "Blocked", font=self.font, alignment="right")
+        write(im_colour, blocked_icon_pos, box_size, "\ue764", self.icon_font, alignment="left", autofit=True)
+        write(im_black, blocked_value_pos, box_size, f'{blocked_value:,}', font=self.font)
 
         # Draw percent blocked box
-        write(im_colour, percent_text_pos, box_size, "Blocked", font=self.font)
-        write(im_colour, percent_icon_pos, box_size, "\ue6c4", self.icon_font)
-        write(im_black, percent_value_pos, box_size, f'{round(percent_value, 2)}%', font=self.font, autofit=True)
+        write(im_colour, percent_text_pos, box_size, "Blocked", font=self.font, alignment="right")
+        write(im_colour, percent_icon_pos, box_size, "\ue6c4", self.icon_font, alignment="left", autofit=True)
+        write(im_black, percent_value_pos, box_size, f'{round(percent_value, 2)}%', font=self.font)
 
         # Draw unique domains box
-        write(im_colour, unique_text_pos, box_size,"Domains", font=self.font)
-        write(im_colour, unique_icon_pos, box_size, "\ue896", self.icon_font)
-        write(im_black, unique_value_pos, box_size, f'{unique_value:,}', font=self.font, autofit=True)
+        write(im_colour, unique_text_pos, box_size,"Domains", font=self.font, alignment="right")
+        write(im_colour, unique_icon_pos, box_size, "\ue896", self.icon_font, alignment="left", autofit=True)
+        write(im_black, unique_value_pos, box_size, f'{unique_value:,}', font=self.font)
 
         # return the images ready for the display
         return im_black, im_colour

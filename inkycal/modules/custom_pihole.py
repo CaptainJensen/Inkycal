@@ -10,18 +10,11 @@ from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
 
-
 logger = logging.getLogger(__name__)
 logger.setLevel(level=logging.INFO)
 
 class PiHole(metaclass=abc.ABCMeta):
     """Generic base class for inkycal modules"""
-
-    @classmethod
-    def __subclasshook__(cls, subclass):
-        return (hasattr(subclass, 'generate_image') and
-                callable(subclass.generate_image) or
-                NotImplemented)
 
     def __init__(self, config):
         """Initialize module with given config"""
@@ -68,7 +61,6 @@ class PiHole(metaclass=abc.ABCMeta):
         except AttributeError:
             print('no validation implemented')
 
-    @abc.abstractmethod
     def generate_image(self):
 
         # Define new image size with respect to padding

@@ -541,8 +541,7 @@ class Weather(inkycal_module):
             draw_border(im_black, (eval(f'col{_}'), row1), (border_w, border_h),
                         shrinkage=(0, 0))
 
-        # return the images ready for the display
-        return im_black, im_colour
+
 
 
 if __name__ == '__main__':

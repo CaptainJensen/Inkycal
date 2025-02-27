@@ -10,5 +10,6 @@ from .inkycal_slideshow import Slideshow
 from .inkycal_textfile_to_display import TextToDisplay
 from .inkycal_webshot import Webshot
 from .inkycal_xkcd import Xkcd
+from .custom_pihole import PiHole
 from .inkycal_fullweather import Fullweather
 from .inkycal_tindie import Tindie

@@ -12,7 +12,6 @@ from PIL import ImageDraw
 from PIL import ImageFont
 
 logger = logging.getLogger(__name__)
-logger.setLevel(level=logging.INFO)
 
 def get_json_from_url(request_url):
     response = requests.get(request_url, verify=False)
@@ -28,6 +27,8 @@ class PiHole(inkycal_module):
     def __init__(self, config):
         """Initialize module with given config"""
 
+        super().__init__(config)
+
         # Initializes base module
         # sets properties shared amongst all sections
         self.config = conf = config['config']
@@ -40,37 +41,12 @@ class PiHole(inkycal_module):
         self.font = ImageFont.truetype(
             fonts['NotoSansUI-Regular'], size=self.fontsize)
 
-    def set(self, help=False, **kwargs):
-        """Set attributes of class, e.g. class.set(key=value)
-        see that can be changed by setting help to True
-        """
-        lst = dir(self).copy()
-        options = [_ for _ in lst if not _.startswith('_')]
-        if 'logger' in options: options.remove('logger')
-
-        if help == True:
-            print('The following can be configured:')
-            print(options)
-
-        for key, value in kwargs.items():
-            if key in options:
-                if key == 'fontsize':
-                    self.font = ImageFont.truetype(self.font.path, value)
-                    self.fontsize = value
-                else:
-                    setattr(self, key, value)
-                    print(f"set '{key}' to '{value}'")
-            else:
-                print(f'{key} does not exist')
-                pass
-
-        # Check if validation has been implemented
-        try:
-            self._validate()
-        except AttributeError:
-            print('no validation implemented')
+        # give an OK message
+        logger.debug(f'Custom PIHOLE module loaded')
 
     def generate_image(self):
+
+        logger.info(f'generating PiHole image...')
 
         # Define new image size with respect to padding
         im_width = int(self.width - (2 * self.padding_left))
@@ -126,6 +102,7 @@ class PiHole(inkycal_module):
             logger.error("Network not reachable. Please check your connection.")
             raise NetworkNotReachableError
 
+        logger.info(f'getting PiHole stats...')
         # Get stats from URL
         piholeStats_data = get_json_from_url("https://pi.hole:443/api/stats/summary")
 
@@ -134,6 +111,8 @@ class PiHole(inkycal_module):
         blocked_value = piholeStats_data["queries"]["blocked"]
         percent_value = piholeStats_data["queries"]["percent_blocked"]
         unique_value = piholeStats_data["queries"]["unique_domains"]
+
+        logger.info(f'acquired PiHole stats')
 
         write(im_colour, tot_text_pos, box_size, "Total Queries", font=self.font)
         write(im_black, tot_value_pos, box_size, str(total_value), font=self.font)

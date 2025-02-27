@@ -6,6 +6,7 @@ from inkycal.modules.template import inkycal_module
 
 import json
 import requests
+import locale
 
 from PIL import Image
 from PIL import ImageDraw
@@ -114,17 +115,20 @@ class PiHole(inkycal_module):
 
         logger.info(f'acquired PiHole stats')
 
-        write(im_colour, tot_text_pos, box_size, "Total Queries", font=self.font)
-        write(im_black, tot_value_pos, box_size, str(total_value), font=self.font)
+        # Set stats to show in local format
+        locale.setlocale(locale.LC_ALL, '')
 
-        write(im_colour, blocked_text_pos, box_size, "Total Blocked", font=self.font)
-        write(im_black, blocked_value_pos, box_size, str(blocked_value), font=self.font)
+        write(im_colour, tot_text_pos, box_size, "Total Queries", font=self.font, autofit=True)
+        write(im_black, tot_value_pos, box_size, f'{total_value:n}', auto_fontsize(self.font, row_height))
 
-        write(im_colour, percent_text_pos, box_size, "Percent Blocked", font=self.font)
-        write(im_black, percent_value_pos, box_size, str(round(percent_value, 2)) + "%", font=self.font)
+        write(im_colour, blocked_text_pos, box_size, "Total Blocked", font=self.font, autofit=True)
+        write(im_black, blocked_value_pos, box_size, f'{blocked_value:n}', auto_fontsize(self.font, row_height))
 
-        write(im_colour, unique_text_pos, box_size, "Unique Domains", font=self.font)
-        write(im_black, unique_value_pos, box_size, str(unique_value), font=self.font)
+        write(im_colour, percent_text_pos, box_size, "Percent Blocked", font=self.font, autofit=True)
+        write(im_black, percent_value_pos, box_size, f'{round(percent_value, 2):n}' + "%", auto_fontsize(self.font, row_height))
+
+        write(im_colour, unique_text_pos, box_size, "Unique Domains", font=self.font, autofit=True)
+        write(im_black, unique_value_pos, box_size, f'{unique_value:n}', auto_fontsize(self.font, row_height))
 
         # return the images ready for the display
         return im_black, im_colour

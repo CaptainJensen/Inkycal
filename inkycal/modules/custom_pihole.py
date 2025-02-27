@@ -74,9 +74,13 @@ class PiHole(inkycal_module):
         im_black = Image.new('RGB', size=im_size, color='white')
         im_colour = Image.new('RGB', size=im_size, color='white')
 
+        # Define n rows and cols
+        n_cols = 2
+        n_rows = 4
+
         # Calculate size rows and columns
-        col_width = im_width // 2 # Two columns
-        row_height = im_height // 4 # Four rows
+        col_width = im_width // n_cols # Two columns
+        row_height = im_height // n_rows # Four rows
 
         logger.debug(f"row_height: {row_height} | col_width: {col_width}")
 
@@ -87,7 +91,7 @@ class PiHole(inkycal_module):
         col1 = spacing_top
         col2 = col1 + col_width
 
-        line_gap = int((im_height - spacing_top - 3 * row_height) // 4)
+        line_gap = int((im_height - spacing_top - (n_rows * row_height)) // (n_rows + 1))
 
         # Calculate the position of each row
         row1 = line_gap
@@ -129,9 +133,9 @@ class PiHole(inkycal_module):
         unique_value = piholeStats_data["queries"]["unique_domains"]
 
         # Draw Total queries box
-        write(im_colour, tot_text_pos, box_size, "Queries", font=self.font, alignment="right")
+        write(im_colour, tot_text_pos, box_size, "Queries", font=self.font)
         write(im_colour, tot_icon_pos, box_size, "\ue80b", self.icon_font, alignment="left", autofit=True)
-        write(im_black, tot_value_pos, box_size, f'{total_value:,}', font=self.font)
+        write(im_black, tot_value_pos, box_size, f'{total_value:,}', font=self.font, autofit=True)
 
         # Draw total blocked box
         write(im_colour, blocked_text_pos, box_size, "Blocked", font=self.font, alignment="right")
@@ -139,7 +143,7 @@ class PiHole(inkycal_module):
         write(im_black, blocked_value_pos, box_size, f'{blocked_value:,}', font=self.font)
 
         # Draw percent blocked box
-        write(im_colour, percent_text_pos, box_size, "Blocked", font=self.font, alignment="right")
+        write(im_colour, percent_text_pos, box_size, "Blocked", font=self.font)
         write(im_colour, percent_icon_pos, box_size, "\ue6c4", self.icon_font, alignment="left", autofit=True)
         write(im_black, percent_value_pos, box_size, f'{round(percent_value, 2)}%', font=self.font)
 

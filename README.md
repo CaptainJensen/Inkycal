@@ -1,20 +1,4 @@
-# Welcome to inkycal v2.0.4!
-
-<p align="center">
-    <a href="https://github.com/aceinnolab/Inkycal/actions/workflows/test-on-rpi.yml"><img src="https://github.com/aceinnolab/Inkycal/actions/workflows/test-on-rpi.yml/badge.svg"></a>
-    <a href="https://discord.gg/sHYKeSM"><img src="https://img.shields.io/discord/672082714190544899?style=flat&logo=discord&logoColor=blue&color=lightorange"></a>
-    <a href="https://github.com/aceinnolab/Inkycal/releases"><img alt="Version" src="https://img.shields.io/github/release/aceisace/Inkycal.svg"/></a>
-    <a href="https://github.com/aceinnolab/Inkycal/blob/main/LICENSE"><img alt="Licence" src="https://img.shields.io/github/license/aceisace/Inkycal.svg" /></a>
-    <a href="https://github.com/aceinnolab/Inkycal"><img alt="python" src="https://img.shields.io/badge/python-3.9%20%7C%203.10%20%7C%203.11-lightorange"></a>
-    <a href="https://github.com/aceinnolab/Inkycal/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/aceisace/Inkycal?color=yellow"></a>
-</p>
-
-<p align="center">
-        <img src="https://raw.githubusercontent.com/aceisace/Inkycal/assets/Repo/logo.png" width="900" alt="aceinnolab logo">
-</p>
-<p align="center">
-        <img src="https://github.com/aceinnolab/Inkycal/blob/c1c274878ba81ddaee6186561e6ea892da54cd6a/Repo/inkycal-featured-gif.gif" width="900" alt="featured-image">
-</p>
+# Welcome to inkycal
 
 Inkycal is a software written in python for selected E-Paper displays. It converts these displays into useful
 information dashboards. It's open-source, free for personal use, fully modular and user-friendly. Despite all this,

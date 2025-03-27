@@ -12,11 +12,11 @@ async def run():
     """Run Inkycal nonstop. Default mode."""
     # create an instance of Inkycal
     # If your settings.json file is not in /boot, use the full path:
-    # inky = Inkycal('path/to/settings.json', render=True)
+    inky = Inkycal('settings.json', render=True)
 
     # when using experimental PiSugar support:
     # inky = Inkycal(render=True, use_pi_sugar=True, shutdown_after_run=False)
-    inky = Inkycal(render=True)
+    #inky = Inkycal(render=True)
     await inky.run()  # If there were no issues, you can run Inkycal nonstop
 
 
@@ -32,7 +32,7 @@ async def dry_run():
 async def clear_display():
     """Calibrate the display if you see some ghosting"""
     print("loading Inkycal and display driver...")
-    inky = Inkycal(render=True)  # Initialise Inkycal
+    inky = Inkycal('settings.json', render=True)  # Initialise Inkycal
     print("clearing display...")
     inky.calibrate(cycles=1)  # Calibrate the display
     print("clear complete...")

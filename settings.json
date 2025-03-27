@@ -1,0 +1,69 @@
+{
+    "model": "epd_7_in_5_v2_colour",
+    "update_interval": 60,
+    "orientation": 0,
+    "info_section": true,
+    "info_section_height": 20,
+    "border_around_modules": false,
+    "modules": [
+        {
+            "position": 1,
+            "name": "Weather",
+            "config": {
+                "size": [
+                    480,
+                    117
+                ],
+                "api_key": "REDACTED",
+                "location": "REDACTED",
+                "round_temperature": true,
+                "round_windspeed": true,
+                "forecast_interval": "daily",
+                "units": "imperial",
+                "hour_format": "12",
+                "use_beaufort": false,
+                "padding_x": 0,
+                "padding_y": 0,
+                "fontsize": 20,
+                "language": "en"
+            }
+        },
+        {
+            "position": 2,
+            "name": "PiHole",
+            "config": {
+                "size": [
+                    480,
+                    273
+                ],
+                "padding_x": 0,
+                "padding_y": 0,
+                "fontsize": 20,
+                "url": "https://pi.hole:443/api/stats/summary"
+            }
+        },
+        {
+            "position": 3,
+            "name": "Xkcd",
+            "config": {
+                "size": [
+                    480,
+                    390
+                ],
+                "mode": "random",
+                "palette": "bwr",
+                "alt": "no",
+                "filter": "no",
+                "padding_x": 0,
+                "padding_y": 0,
+                "fontsize": 20,
+                "language": "en"
+            }
+        }
+    ],
+    "language": "en",
+    "calibration_hours": [
+        0,
+        12
+    ]
+}

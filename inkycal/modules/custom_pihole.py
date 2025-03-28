@@ -24,7 +24,7 @@ def get_json_from_url(request_url):
 def get_pihole_stats_data(url):
 
     if internet_available():
-        logger.debug('Connection test passed')
+        logger.info('Internet Connection test passed')
     else:
         logger.error("Network not reachable. Please check your connection.")
         raise NetworkNotReachableError
@@ -58,11 +58,11 @@ class PiHole(inkycal_module):
         self.icon_font = ImageFont.truetype(fonts['MaterialIcons'], size=self.fontsize)
 
         # give an OK message
-        logger.debug(f'Custom PiHole module loaded')
+        logger.info('Custom PiHole module loaded')
 
     def generate_image(self):
 
-        logger.info(f'generating PiHole image...')
+        logger.info('generating PiHole image...')
 
         # Define new image size with respect to padding
         im_width = int(self.width - (2 * self.padding_left))

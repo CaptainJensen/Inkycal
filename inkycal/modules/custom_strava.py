@@ -38,21 +38,21 @@ class Strava(inkycal_module):
         self.client_secret = conf["client_secret"]
         self.strava_client = Client(access_token=self.initial_access_token, refresh_token=self.initial_refresh_token)
 
-        logger.debug(f'Custom Strava module loaded')
+        logger.info(f'Custom Strava module loaded')
 
     def generate_image(self):
 
         logger.info(f'Generating strava image...')
 
         try:
-            logger.debug(f'Attempting to refresh Strava token...')
+            logger.info(f'Attempting to refresh Strava token...')
 
             self.strava_client.refresh_access_token(self.client_id, self.client_secret, self.strava_client.refresh_token)
 
             athlete = self.strava_client.get_athlete()
             stats = self.strava_client.get_athlete_stats()
 
-            logger.debug(f'Connected to athlete: {athlete.firstname} {athlete.lastname}')
+            logger.info(f'Connected to athlete: {athlete.firstname} {athlete.lastname}')
         except:
             stats = model.AthleteStats()
             logger.critical('Could not connect to strava!')
@@ -122,10 +122,10 @@ class Strava(inkycal_module):
         ytd_achievement_count =  stats.ytd_ride_totals.achievement_count
         ytd_time =  stats.ytd_ride_totals.elapsed_time
 
-        logger.debug(f"ytd_distance : {ytd_distance}")
-        logger.debug(f"ytd_count : {ytd_count}")
-        logger.debug(f"ytd_achievement_count : {ytd_achievement_count}")
-        logger.debug(f"ytd_time : {ytd_time}")
+        logger.info(f"ytd_distance : {ytd_distance}")
+        logger.info(f"ytd_count : {ytd_count}")
+        logger.info(f"ytd_achievement_count : {ytd_achievement_count}")
+        logger.info(f"ytd_time : {ytd_time}")
 
         # Adjust units
         ytd_distance = unit_helper.mile(ytd_distance)
@@ -152,5 +152,5 @@ class Strava(inkycal_module):
         write(im_black, time_value_pos, box_size, f'{ytd_time:,}', font=self.font, autofit=True)
 
         # return the images ready for the display
-        logger.debug("Done generating Strava image")
+        logger.info("Done generating Strava image")
         return im_black, im_colour

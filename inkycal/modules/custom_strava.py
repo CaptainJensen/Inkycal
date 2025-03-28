@@ -123,7 +123,7 @@ class Strava(inkycal_module):
 
         # Adjust units
         ytd_distance = unit_helper.mile(ytd_distance)
-        ytd_time = unit_helper.hours(ytd_time)
+        ytd_time = unit_helper.seconds(ytd_time)
 
         logger.info(f"ytd_distance : {ytd_distance}")
         logger.info(f"ytd_count : {ytd_count}")

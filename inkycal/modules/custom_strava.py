@@ -96,24 +96,24 @@ class Strava(inkycal_module):
         box_size = (col_width, row_height)
 
         # Position for top left
-        tot_text_pos = (col1, row1)
-        tot_icon_pos = (col1, row1)
-        tot_value_pos = (col1, row2)
+        dist_text_pos = (col1, row1)
+        dist_icon_pos = (col1, row1)
+        dist_value_pos = (col1, row2)
 
         # Position for top right
-        blocked_text_pos = (col2, row1)
-        blocked_icon_pos = (col2, row1)
-        blocked_value_pos = (col2, row2)
+        count_text_pos = (col2, row1)
+        count_icon_pos = (col2, row1)
+        count_value_pos = (col2, row2)
 
         # Position for bottom left
-        percent_text_pos = (col2, row3)
-        percent_icon_pos = (col2, row3)
-        percent_value_pos = (col2, row4)
+        achievement_text_pos = (col2, row3)
+        achievement_icon_pos = (col2, row3)
+        achievement_value_pos = (col2, row4)
 
         # Position for bottom right
-        unique_text_pos = (col1, row3)
-        unique_icon_pos = (col1, row3)
-        unique_value_pos = (col1, row4)
+        time_text_pos = (col1, row3)
+        time_icon_pos = (col1, row3)
+        time_value_pos = (col1, row4)
 
         # Parse stats
 
@@ -127,24 +127,24 @@ class Strava(inkycal_module):
         ytd_time = unit_helper.hours(ytd_time)
 
         # Draw distance box
-        write(im_colour, tot_text_pos, box_size, "Distance", font=self.font)
-        write(im_colour, tot_icon_pos, box_size, "\ue80b", self.icon_font, alignment="left", autofit=True)
-        write(im_black, tot_value_pos, box_size, f'{ytd_distance:,}', font=self.font, autofit=True)
+        write(im_colour, dist_text_pos, box_size, "Distance", font=self.font)
+        write(im_colour, dist_icon_pos, box_size, "\ue80b", self.icon_font, alignment="left", autofit=True)
+        write(im_black, dist_value_pos, box_size, f'{ytd_distance:,}', font=self.font, autofit=True)
 
         # Draw total count box
-        write(im_colour, blocked_text_pos, box_size, "Rides", font=self.font)
-        write(im_colour, blocked_icon_pos, box_size, "\ue764", self.icon_font, alignment="left", autofit=True)
-        write(im_black, blocked_value_pos, box_size, f'{ytd_count:,}', font=self.font, autofit=True)
+        write(im_colour, count_text_pos, box_size, "Rides", font=self.font)
+        write(im_colour, count_icon_pos, box_size, "\ue764", self.icon_font, alignment="left", autofit=True)
+        write(im_black, count_value_pos, box_size, f'{ytd_count:,}', font=self.font, autofit=True)
 
         # Draw achievements box
-        write(im_colour, percent_text_pos, box_size, "Achievements", font=self.font)
-        write(im_colour, percent_icon_pos, box_size, "\ue6c4", self.icon_font, alignment="left", autofit=True)
-        write(im_black, percent_value_pos, box_size, f'{round(ytd_achievement_count, 2)}%', font=self.font, autofit=True)
+        write(im_colour, achievement_text_pos, box_size, "Achievements", font=self.font)
+        write(im_colour, achievement_icon_pos, box_size, "\ue6c4", self.icon_font, alignment="left", autofit=True)
+        write(im_black, achievement_value_pos, box_size, f'{ytd_achievement_count:,}', font=self.font, autofit=True)
 
         # Draw time box
-        write(im_colour, unique_text_pos, box_size,"Time", font=self.font)
-        write(im_colour, unique_icon_pos, box_size, "\ue896", self.icon_font, alignment="left", autofit=True)
-        write(im_black, unique_value_pos, box_size, f'{ytd_time:,}', font=self.font, autofit=True)
+        write(im_colour, time_text_pos, box_size,"Time", font=self.font)
+        write(im_colour, time_icon_pos, box_size, "\ue896", self.icon_font, alignment="left", autofit=True)
+        write(im_black, time_value_pos, box_size, f'{ytd_time:,}', font=self.font, autofit=True)
 
         # return the images ready for the display
         return im_black, im_colour

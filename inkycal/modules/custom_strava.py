@@ -119,7 +119,7 @@ class Strava(inkycal_module):
 
         ytd_distance =  stats.ytd_ride_totals.distance
         ytd_count =  stats.ytd_ride_totals.count
-        ytd_achievement_count =  stats.ytd_ride_totals.achievement_count
+        all_achievement_count =  stats.all_ride_totals.achievement_count
         ytd_time =  stats.ytd_ride_totals.elapsed_time
 
         # Adjust units
@@ -128,13 +128,13 @@ class Strava(inkycal_module):
 
         logger.info(f"ytd_distance : {ytd_distance}")
         logger.info(f"ytd_count : {ytd_count}")
-        logger.info(f"ytd_achievement_count : {ytd_achievement_count}")
+        logger.info(f"all_achievement_count : {all_achievement_count}")
         logger.info(f"ytd_time : {ytd_time}")
 
         # Draw distance box
         write(im_colour, dist_text_pos, box_size, "Distance", font=self.font)
         write(im_colour, dist_icon_pos, box_size, "\ue80b", self.icon_font, alignment="left", autofit=True)
-        write(im_black, dist_value_pos, box_size, f'{ytd_distance or -1:,}', font=self.font, autofit=True)
+        write(im_black, dist_value_pos, box_size, f'{ytd_distance or -1:,.1f}', font=self.font, autofit=True)
 
         # Draw total count box
         write(im_colour, count_text_pos, box_size, "Rides", font=self.font)
@@ -144,12 +144,12 @@ class Strava(inkycal_module):
         # Draw achievements box
         write(im_colour, achievement_text_pos, box_size, "Achievements", font=self.font)
         write(im_colour, achievement_icon_pos, box_size, "\ue6c4", self.icon_font, alignment="left", autofit=True)
-        write(im_black, achievement_value_pos, box_size, f'{ytd_achievement_count or -1:,}', font=self.font, autofit=True)
+        write(im_black, achievement_value_pos, box_size, f'{all_achievement_count or -1:,}', font=self.font, autofit=True)
 
         # Draw time box
         write(im_colour, time_text_pos, box_size,"Time", font=self.font)
         write(im_colour, time_icon_pos, box_size, "\ue896", self.icon_font, alignment="left", autofit=True)
-        write(im_black, time_value_pos, box_size, f'{ytd_time or -1:,}', font=self.font, autofit=True)
+        write(im_black, time_value_pos, box_size, f'{ytd_time or -1:,.1f}', font=self.font, autofit=True)
 
         # return the images ready for the display
         logger.info("Done generating Strava image")

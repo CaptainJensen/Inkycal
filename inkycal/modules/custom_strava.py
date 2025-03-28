@@ -3,7 +3,7 @@ from inkycal.custom import *
 from inkycal.modules.template import inkycal_module
 
 from stravalib.client import Client
-from stravalib.unithelper import UnitsQuantity
+from stravalib import unit_helper
 
 from PIL import Image
 from PIL import ImageDraw
@@ -108,6 +108,10 @@ class Strava(inkycal_module):
         ytd_count =  stats.ytd_ride_totals.count
         ytd_achievement_count =  stats.ytd_ride_totals.achievement_count
         ytd_time =  stats.ytd_ride_totals.elapsed_time
+
+        # Adjust units
+        ytd_distance = unit_helper.mile(ytd_distance)
+        ytd_time = unit_helper.hours(ytd_time)
 
         # Draw distance box
         write(im_colour, tot_text_pos, box_size, "Distance", font=self.font)

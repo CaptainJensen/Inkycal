@@ -1,6 +1,6 @@
 {
     "model": "epd_7_in_5_v2_colour",
-    "update_interval": 60,
+    "update_interval": 360,
     "orientation": 0,
     "info_section": true,
     "info_section_height": 20,
@@ -34,7 +34,7 @@
             "config": {
                 "size": [
                     480,
-                    273
+                    137
                 ],
                 "padding_x": 0,
                 "padding_y": 0,
@@ -44,6 +44,20 @@
         },
         {
             "position": 3,
+            "name": "Strava",
+            "config": {
+                "size": [
+                    480,
+                    136
+                ],
+                "padding_x": 0,
+                "padding_y": 0,
+                "fontsize": 20,
+                "initial_token": "REDACTED"
+            }
+        },
+        {
+            "position": 4,
             "name": "Xkcd",
             "config": {
                 "size": [

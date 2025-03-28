@@ -12,5 +12,6 @@ import inkycal.modules.inkycal_weather
 import inkycal.modules.inkycal_webshot
 import inkycal.modules.inkycal_xkcd
 import inkycal.modules.custom_pihole
+import inkycal.modules.custom_strava
 from inkycal.display import Display
 from inkycal.main import Inkycal

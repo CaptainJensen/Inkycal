@@ -13,3 +13,4 @@ from .inkycal_xkcd import Xkcd
 from .inkycal_fullweather import Fullweather
 from .inkycal_tindie import Tindie
 from .custom_pihole import PiHole
+from .custom_strava import Strava

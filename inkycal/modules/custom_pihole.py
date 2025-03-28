@@ -17,7 +17,7 @@ def get_json_from_url(request_url):
     response = requests.get(request_url, verify=False)
     if not response.ok:
         raise AssertionError(
-            f"Failure getting the current weather: code {response.status_code}. Reason: {response.text}"
+            f"Failure | code {response.status_code}; Reason: {response.text}"
         )
     return json.loads(response.text)
 

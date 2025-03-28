@@ -437,7 +437,7 @@ class Weather(inkycal_module):
 
             for index, forecast in enumerate(daily_forecasts):
                 fc_data['fc' + str(index + 1)] = {
-                    'temp': f'{forecast["temp_min"]:.{dec_temp}f}{self.tempDispUnit}/{forecast["temp_max"]:.{dec_temp}f}{self.tempDispUnit}',
+                    'temp': f'{forecast["temp_min"]:.{dec_temp}f}/{forecast["temp_max"]:.{dec_temp}f}',
                     'icon': forecast['icon'],
                     'stamp': forecast['datetime'].strftime("%A")
                 }

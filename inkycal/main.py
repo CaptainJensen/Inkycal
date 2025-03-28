@@ -53,7 +53,7 @@ class Inkycal:
                 Shutdown the system after the run is complete. Will only work with PiSugar enabled.
 
         """
-        self._release = "2.0.4"
+        self._release = "1.1.0"
 
         logger.info(f"Inkycal v{self._release} booting up...")
 

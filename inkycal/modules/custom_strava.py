@@ -122,6 +122,11 @@ class Strava(inkycal_module):
         ytd_achievement_count =  stats.ytd_ride_totals.achievement_count
         ytd_time =  stats.ytd_ride_totals.elapsed_time
 
+        logger.debug(f"ytd_distance : {ytd_distance}")
+        logger.debug(f"ytd_count : {ytd_count}")
+        logger.debug(f"ytd_achievement_count : {ytd_achievement_count}")
+        logger.debug(f"ytd_time : {ytd_time}")
+
         # Adjust units
         ytd_distance = unit_helper.mile(ytd_distance)
         ytd_time = unit_helper.hours(ytd_time)
@@ -147,4 +152,5 @@ class Strava(inkycal_module):
         write(im_black, time_value_pos, box_size, f'{ytd_time:,}', font=self.font, autofit=True)
 
         # return the images ready for the display
+        logger.debug("Done generating Strava image")
         return im_black, im_colour

@@ -118,16 +118,16 @@ class Strava(inkycal_module):
         # Parse stats
         ytd_distance =  stats.ytd_ride_totals.distance
         ytd_count =  stats.ytd_ride_totals.count
-        all_achievement_count =  stats.all_ride_totals.achievement_count
+        recent_achievement_count =  stats.recent_ride_totals.achievement_count
         ytd_time =  stats.ytd_ride_totals.elapsed_time
 
         # Adjust units
         ytd_distance = unit_helper.mile(ytd_distance)
-        ytd_time = unit_helper.seconds(ytd_time)
+        ytd_time = unit_helper.seconds(ytd_time) # TODO FIX THIS TIME
 
         logger.info(f"ytd_distance : {ytd_distance}")
         logger.info(f"ytd_count : {ytd_count}")
-        logger.info(f"all_achievement_count : {all_achievement_count}")
+        logger.info(f"recent_achievement_count : {recent_achievement_count}")
         logger.info(f"ytd_time : {ytd_time}")
 
         # Draw distance box
@@ -142,8 +142,8 @@ class Strava(inkycal_module):
 
         # Draw achievements box
         write(im_colour, achievement_text_pos, box_size, "Achievements", font=self.font)
-        write(im_colour, achievement_icon_pos, box_size, "\ue71a", self.icon_font, alignment="left", autofit=True)
-        write(im_black, achievement_value_pos, box_size, f'{all_achievement_count or -1:,}', font=self.font, autofit=True)
+        write(im_colour, achievement_icon_pos, box_size, "\uea23", self.icon_font, alignment="left", autofit=True)
+        write(im_black, achievement_value_pos, box_size, f'{recent_achievement_count or -1:,}', font=self.font, autofit=True)
 
         # Draw time box
         write(im_colour, time_text_pos, box_size,"Time", font=self.font)

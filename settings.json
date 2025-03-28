@@ -1,6 +1,6 @@
 {
     "model": "epd_7_in_5_v2_colour",
-    "update_interval": 360,
+    "update_interval": 240,
     "orientation": 0,
     "info_section": true,
     "info_section_height": 20,
@@ -53,7 +53,10 @@
                 "padding_x": 0,
                 "padding_y": 0,
                 "fontsize": 20,
-                "initial_token": "REDACTED"
+                "initial_access_token": "REDACTED",
+                "initial_refresh_token": "REDACTED",
+                "client_secret": "REDACTED",
+                "client_id": "REDACTED"
             }
         },
         {

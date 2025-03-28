@@ -32,8 +32,11 @@ class Strava(inkycal_module):
         self.font = ImageFont.truetype(fonts['NotoSansUI-Regular'], size=self.fontsize)
         self.icon_font = ImageFont.truetype(fonts['MaterialIcons'], size=self.fontsize)
 
-        self.initial_token = conf["initial_token"]
-        self.strava_client = Client(access_token=self.initial_token)
+        self.initial_access_token = conf["initial_access_token"]
+        self.initial_refresh_token = conf["initial_refresh_token"]
+        self.client_id = conf["client_id"]
+        self.client_secret = conf["client_secret"]
+        self.strava_client = Client(access_token=self.initial_access_token, refresh_token=self.initial_refresh_token)
 
         logger.debug(f'Custom Strava module loaded')
 
@@ -42,8 +45,13 @@ class Strava(inkycal_module):
         logger.info(f'Generating strava image...')
 
         try:
+            logger.debug(f'Attempting to refresh Strava token...')
+
+            self.strava_client.refresh_access_token(self.client_id, self.client_secret, self.strava_client.refresh_token)
+
             athlete = self.strava_client.get_athlete()
             stats = self.strava_client.get_athlete_stats()
+
             logger.debug(f'Connected to athlete: {athlete.firstname} {athlete.lastname}')
         except:
             stats = model.AthleteStats()

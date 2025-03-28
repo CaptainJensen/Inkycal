@@ -4,6 +4,7 @@ from inkycal.modules.template import inkycal_module
 
 from stravalib.client import Client
 from stravalib import unit_helper
+from stravalib import model
 
 from PIL import Image
 from PIL import ImageDraw
@@ -32,7 +33,7 @@ class Strava(inkycal_module):
         self.icon_font = ImageFont.truetype(fonts['MaterialIcons'], size=self.fontsize)
 
         self.initial_token = conf["initial_token"]
-        self.strava_client = Client(self.initial_token)
+        self.strava_client = Client(access_token=self.initial_token)
 
         logger.debug(f'Custom Strava module loaded')
 
@@ -40,10 +41,13 @@ class Strava(inkycal_module):
 
         logger.info(f'Generating strava image...')
 
-        athlete = self.strava_client.get_athlete()
-        stats = self.strava_client.get_athlete_stats()
-
-        logger.debug(f'Connected to athlete: {athlete.firstname} {athlete.lastname}')
+        try:
+            athlete = self.strava_client.get_athlete()
+            stats = self.strava_client.get_athlete_stats()
+            logger.debug(f'Connected to athlete: {athlete.firstname} {athlete.lastname}')
+        except:
+            stats = model.AthleteStats()
+            logger.critical('Could not connect to strava!')
 
         # Define new image size with respect to padding
         im_width = int(self.width - (2 * self.padding_left))
@@ -104,6 +108,7 @@ class Strava(inkycal_module):
         unique_value_pos = (col1, row4)
 
         # Parse stats
+
         ytd_distance =  stats.ytd_ride_totals.distance
         ytd_count =  stats.ytd_ride_totals.count
         ytd_achievement_count =  stats.ytd_ride_totals.achievement_count
